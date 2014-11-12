@@ -35,12 +35,14 @@ public class Book implements Serializable {
 	 */
 	Book(int book_id, String title, int fk_author, int year, int fk_publisher,
 			int stock) {
-		this.book_id = book_id;
+
+		setBook_id(book_id);
 		this.title = title;
 		this.fk_author = fk_author;
 		this.year = year;
 		this.fk_publisher = fk_publisher;
 		this.stock = stock;
+
 	}
 
 	public int getBook_id() {
@@ -48,7 +50,10 @@ public class Book implements Serializable {
 	}
 
 	public void setBook_id(int book_id) {
-		this.book_id = book_id;
+		if (book_id > 1000) {
+			this.book_id = 0;
+		} else
+			this.book_id = book_id;
 	}
 
 	public String getTitle() {
