@@ -110,6 +110,11 @@ public class LibraryManager {
 		}
 
 	}
+	/**
+	 * @author Juan
+	 * @param randomFile,id
+	 * Elimina el id recibido del archivo libro.bin
+	 */
 	public boolean deleteId(int id,String randomFile){
 		int posicion=(id-1)*60;
 		boolean realizado=false;
@@ -126,9 +131,9 @@ public class LibraryManager {
 				file.skipBytes(4);
 				file.write(0);//autor
 				file.skipBytes(4);
-				file.write(0);//editor
-				file.skipBytes(4);
 				file.write(0);//año
+				file.skipBytes(4);
+				file.write(0);//editor
 				file.skipBytes(4);
 				file.write(0);//stock
 				
