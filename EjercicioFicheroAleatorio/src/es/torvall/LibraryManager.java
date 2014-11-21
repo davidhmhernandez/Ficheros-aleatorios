@@ -126,7 +126,9 @@ public class LibraryManager {
 			
 			if(file.read()==id){
 				file.write(0);//id
-				file.skipBytes(44);
+				file.skipBytes(40);
+				file.writeChars(" ");//Titulo
+				file.skipBytes(4);
 				file.write(0);//fk_autor
 				file.skipBytes(4);
 				file.write(0);//autor
