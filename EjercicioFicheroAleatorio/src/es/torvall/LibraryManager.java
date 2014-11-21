@@ -191,7 +191,12 @@ public class LibraryManager {
 		return book;
 	}
 	
-	
+	/**
+	 * @author CarlosGonzalezGonzalez
+	 * @param randomFile
+	 * @param editorial
+	 * @return
+	 */
 
 	public ArrayList<Book> buscarLibros(String randomFile, int editorial) {
 		System.out.println("buscaLibros");
