@@ -109,5 +109,50 @@ public class LibraryManager {
 		}
 
 	}
+	
+	public boolean deleteId(int id,String randomFile){
+		int posicion=(id-1)*60;
+		boolean realizado=false;
+		RandomAccessFile file=null;
+		
+		try {
+			file=new RandomAccessFile(randomFile,"rw");
+			file.seek(posicion);
+			
+			if(file.read()==id){
+				file.write(0);//id
+				file.skipBytes(44);
+				file.write(0);//fk_autor
+				file.skipBytes(4);
+				file.write(0);//autor
+				file.skipBytes(4);
+				file.write(0);//editor
+				file.skipBytes(4);
+				file.write(0);//año
+				file.skipBytes(4);
+				file.write(0);//stock
+				
+				realizado=true;
+			}
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			try {
+				file.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return realizado;
+		
+	}
+	
+	
 
 }
