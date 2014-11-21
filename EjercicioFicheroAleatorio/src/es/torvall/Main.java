@@ -14,8 +14,8 @@ public class Main {
 
 		LibraryManager lm = new LibraryManager();
 
-		//lm.writeRandomFile(randomFile,lm.readCSV(csvFile));
-		//lm.leerBin(randomFile);
+		lm.writeRandomFile(randomFile,lm.readCSV(csvFile));
+		lm.leerBin(randomFile);
 
 		ArrayList<Book>a = lm.buscarLibros(randomFile,67);
 			for(Book b : a){
