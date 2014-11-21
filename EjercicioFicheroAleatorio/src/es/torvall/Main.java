@@ -1,6 +1,5 @@
 package es.torvall;
 
-import java.io.IOException;
 
 public class Main {
 	final static String csvFile = "./resources/librosl.csv";
@@ -16,11 +15,13 @@ public class Main {
 		
 		lm.writeRandomFile(randomFile, lm.readCSV(csvFile));
 		
+				
 		
+		Book b = new Book(1010,"El Señor de las Moscas",1,83,2013,1);
+		Book b2 = new Book(1,"El Señor de las casas",1,83,2013,1);
+		lm.nuevoLibro(b, randomFile);
+		lm.nuevoLibro(b2, randomFile);
 		
-
-		
-		lm.writeRandomFile(randomFile,lm.readCSV(csvFile));
 		lm.leerBin(randomFile);
 
 

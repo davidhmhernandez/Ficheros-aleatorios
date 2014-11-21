@@ -130,61 +130,129 @@ public class LibraryManager {
 
 	}
 
-	
-	
-
 	/**
-	 * @author Carlos y David
-	 * Metodo que lee el archivo BIN y lo muestra por pantalla
+	 * @author Carlos y David Metodo que lee el archivo BIN y lo muestra por
+	 *         pantalla
 	 * @param randomFile
 	 */
-
 
 	public void leerBin(String randomFile) {
 
 		RandomAccessFile file = null;
 		try {
 			file = new RandomAccessFile(randomFile, "r");
-		
 
-		int book_id, fk_author, year, fk_publisher, stock;
+			int book_id, fk_author, year, fk_publisher, stock;
 
-		char title[] = new char[TAM_NAME], aux;
+			char title[] = new char[TAM_NAME], aux;
 
-		// System.out.println(file.length());
-
-		do {
-			book_id = file.readInt();
-			for (int i = 0; i < TAM_NAME; i++) {
-				aux = file.readChar();
-				if ((int) aux != 0) {
-					title[i] = aux;
-				} else
-					title[i] = ' ';
-			}
-			String titleS = new String(title);
-			fk_author = file.readInt();
-			fk_publisher = file.readInt();
-			year = file.readInt();
-			stock = file.readInt();
-			System.out.println("ID: " + book_id + " Title: " + titleS
-					+ " Author: " + fk_author + " Publisher: " + fk_publisher
-					+ " Year: " + year + " Stock: " + stock);
-		} while (file.getFilePointer() < file.length());
+			do {
+				book_id = file.readInt();
+				for (int i = 0; i < TAM_NAME; i++) {
+					aux = file.readChar();
+					if ((int) aux != 0) {
+						title[i] = aux;
+					} else
+						title[i] = ' ';
+				}
+				String titleS = new String(title);
+				fk_author = file.readInt();
+				fk_publisher = file.readInt();
+				year = file.readInt();
+				stock = file.readInt();
+				System.out.println("ID: " + book_id + " Title: " + titleS
+						+ " Author: " + fk_author + " Publisher: "
+						+ fk_publisher + " Year: " + year + " Stock: " + stock);
+			} while (file.getFilePointer() < file.length());
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally{
-			try{
+		} finally {
+			try {
 				file.close();
-			}catch(IOException ioe){
-				
+			} catch (IOException ioe) {
+
 			}
 		}
-		
 
+	}
+	/**
+	 * Metodo para escribir
+	 * @param file
+	 * @param b
+	 */
+
+	public void escribirLibro(RandomAccessFile file, Book b) {
+		
+		StringBuffer sb = null;
+		try {
+			file.writeInt(b.getBook_id());
+
+			sb = new StringBuffer(b.getTitle());
+			sb.setLength(TAM_NAME);
+			file.writeChars(sb.toString());
+
+			file.writeInt(b.getFk_author());
+
+			file.writeInt(b.getFk_publisher());
+
+			file.writeInt(b.getYear());
+
+			file.writeInt(b.getStock());
+		} catch (IOException ioe) {
+			
+		}
+		
+	}
+	
+	/**
+	 * @author Carlos y David
+	 * Metodo que escribe un nuevo libro al BIN
+	 * @param b
+	 * @param randomFile
+	 * @return
+	 */
+
+	public boolean nuevoLibro(Book b, String randomFile) {
+		RandomAccessFile file = null;
+		boolean escrito = false;
+		try {
+
+			file = new RandomAccessFile(randomFile, "rw");
+			int book_id;
+			int posicion = (b.getBook_id() - 1)*60;
+			// si el libro está dentro del fichero
+			if (posicion < file.length()) {
+				file.seek(posicion);
+				book_id = file.readInt();
+				if (book_id != 0) {
+					posicion -= 4;
+					file.seek(posicion);
+					escribirLibro(file, b);
+					escrito = true;
+				}
+			}
+			// es un libro fuera del fichero
+			else {
+				file.seek(posicion);
+				escribirLibro(file, b);
+				escrito = true;
+			}
+
+		} catch (IOException ioe) {
+			System.err.println("EEEEEE");
+
+		} finally {
+			try {
+				file.close();
+			} catch (IOException e) {
+				System.err.println("iiiii");
+			}
+
+		}
+		return escrito;
 	}
 }
