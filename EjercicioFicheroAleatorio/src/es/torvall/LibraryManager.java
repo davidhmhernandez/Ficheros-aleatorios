@@ -13,8 +13,8 @@ import java.util.StringTokenizer;
 
 public class LibraryManager {
 	final static int TAM_NAME = 20;
-	public final static int POSICION_EDITORIAL = 56;
-	public final static int BYTES_STOCK = 4;
+	public final static int POSICION_EDITORIAL = 48;
+	public final static int TAMANO_REGISTRO = 60;
 	
 	Book b = null;
 	StringBuffer sb;
@@ -286,14 +286,13 @@ public class LibraryManager {
 	 */
 
 	public ArrayList<Book> buscarLibros(String randomFile, int editorial) {
-		System.out.println("buscaLibros");
 		ArrayList<Book> libros = new ArrayList<Book>(); // ArrayList donde guardaremos los libros de la editorial
 		Book book;
 		RandomAccessFile streamIn = null;
 		int posicion = 0;
-		
+		/*
 		// Forma lenta
-		/*try {
+		try {
 			streamIn = new RandomAccessFile(randomFile, "r");
 			do {
 				book = readBook(streamIn);
@@ -312,7 +311,8 @@ public class LibraryManager {
 					System.err.println("Error e/s al cerrar");
 				}
 			}
-		}*/
+		}
+		*/
 		
 		// Forma rapida
 		try{
@@ -324,9 +324,12 @@ public class LibraryManager {
 				if(publisher == editorial){ // Si son iguales...
 					posicion -= POSICION_EDITORIAL; // Nos colocamos al inicio del libro
 					streamIn.seek(posicion); // Nos colocamos al inicio del libro
+					Book b = readBook(streamIn);
+					System.out.println(b.toString());
+					posicion += TAMANO_REGISTRO;
 					libros.add(readBook(streamIn)); //Anadimos el libro al ArrayList
 				}else{ // Si son distintas...
-					posicion += BYTES_STOCK ; 
+					posicion += TAMANO_REGISTRO - POSICION_EDITORIAL ; 
 					streamIn.seek(posicion); // Pasamos al siguiente libro
 				}
 			}while(streamIn.getFilePointer() != streamIn.length());
