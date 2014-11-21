@@ -12,15 +12,13 @@ public class Main {
 	public static void main(String[] args) {
 
 		LibraryManager lm = new LibraryManager();
-		/*
-		lm.writeRandomFile(randomFile,lm.readCSV(csvFile));
-		lm.imprimir(randomFile);*/
 		
-		ArrayList<Book>a = lm.buscarLibros(randomFile,67);
+		lm.writeRandomFile(randomFile,lm.readCSV(csvFile));
+		lm.imprimir(randomFile);
+		
+		/*ArrayList<Book>a = lm.buscarLibros(randomFile,67);
 		for(Book b : a){
-			//System.out.println(b.toString());
+			//System.out.println(b.toString());*/
 			
 		}
 	}
-
-}
