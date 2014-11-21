@@ -12,6 +12,9 @@ public class Main {
 		LibraryManager lm = new LibraryManager();
 		lm.readCSV(csvFile);
 		lm.writeRandomFile(randomFile);
+		
+		
+		
 
 	}
 
