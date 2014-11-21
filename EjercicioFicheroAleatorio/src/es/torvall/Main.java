@@ -17,9 +17,9 @@ public class Main {
 		lm.writeRandomFile(randomFile,lm.readCSV(csvFile));
 		lm.leerBin(randomFile);
 
-		/*ArrayList<Book>a = lm.buscarLibros(randomFile,67);
+		ArrayList<Book>a = lm.buscarLibros(randomFile,67);
 			for(Book b : a){
-				//System.out.println(b.toString());
-		  	}*/
+				System.out.println(b.toString());
+		  	}
 	}
 }

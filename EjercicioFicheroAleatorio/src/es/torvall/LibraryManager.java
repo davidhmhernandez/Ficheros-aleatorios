@@ -83,7 +83,8 @@ public class LibraryManager {
 						int year = Integer.parseInt(st.nextToken());
 
 						int stock = Integer.parseInt(st.nextToken());
-						// se crea el objeto libro						b = new Book(id, title, fk_author, fk_publisher, year,stock);
+						// se crea el objeto libro						
+						b = new Book(id, title, fk_author, fk_publisher, year,stock);
 						libros.add(b);
 
 					}
