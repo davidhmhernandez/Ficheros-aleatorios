@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 public class LibraryManager {
@@ -12,6 +13,7 @@ public class LibraryManager {
 	Book b = null;
 	StringBuffer sb;
 	private RandomAccessFile streamOut;
+
 
 	/**
 	 * @author David y Carlos
@@ -108,6 +110,43 @@ public class LibraryManager {
 			}
 		}
 
+	}
+	/**
+	 * @author Juan
+	 * @param id
+	 * @param randomFile
+	 * @return Metodo que recibe un id y devuelve un objeto de la clase Book;
+	 */
+	
+	public Book findBook(int id,String randomFile){
+		int posicion=(id-1)*60;
+		Book libro=new Book();
+		
+		RandomAccessFile file=null;
+				try {
+					file=new RandomAccessFile(randomFile,"r");
+					file.seek(posicion);
+					if(file.read()==id){
+						libro=readBook(file);
+					}
+					
+				} catch (FileNotFoundException e) {
+					
+					e.printStackTrace();
+				} catch (IOException e) {
+					
+					e.printStackTrace();
+				}finally{
+					try {
+						file.close();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				return libro;
+		
+		
 	}
 	
 }
