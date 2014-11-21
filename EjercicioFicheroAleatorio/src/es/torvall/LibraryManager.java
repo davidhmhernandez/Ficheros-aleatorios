@@ -10,13 +10,17 @@ import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 public class LibraryManager {
-	final static int TAM_NAME = 20;
+	public final static int TAM_NAME = 20;
+	public final static int POSICION_EDITORIAL = 56;
+	public final static int BYTES_STOCK = 4;
+	
 	Book b = null;
 	StringBuffer sb;
+	private ArrayList<Book> libros = null;
 
 	public void imprimir(String fichero) {
 		RandomAccessFile streamIn = null;
-		Book b; // ¿Dos Book? ////////////////////////////////////////
+		Book b;
 		try {
 			// abrimos el flujo de salida para escribir un fichero
 			// de acceso aleatorio
@@ -194,6 +198,9 @@ public class LibraryManager {
 		ArrayList<Book> libros = new ArrayList<Book>(); // ArrayList donde guardaremos los libros de la editorial
 		Book book;
 		RandomAccessFile streamIn = null;
+		int posicion = 0;
+		
+		// Forma lenta
 		/*try {
 			streamIn = new RandomAccessFile(randomFile, "r");
 			do {
@@ -215,17 +222,21 @@ public class LibraryManager {
 			}
 		}*/
 		
+		// Forma rapida
+		
 		try{
+			streamIn = new RandomAccessFile(randomFile, "r"); // Abrimos el flujo
 			do{
-				int posicion = 56;
-				streamIn.seek(posicion);
-				int publisher = streamIn.readInt();
-				if(publisher == editorial){
-					streamIn.seek(posicion - 56);
-					libros.add(readBook(streamIn));
-					streamIn.seek(posicion + 60);
-				}else{
-					streamIn.seek(posicion + 60);
+				posicion += POSICION_EDITORIAL;
+				streamIn.seek(posicion); // Nos posicionamos en la editorial directamente
+				int publisher = streamIn.readInt(); // Leemos la editorial
+				if(publisher == editorial){ // Si son iguales...
+					posicion -= POSICION_EDITORIAL; // Nos colocamos al inicio del libro
+					streamIn.seek(posicion); // Nos colocamos al inicio del libro
+					libros.add(readBook(streamIn)); //Anadimos el libro al ArrayList
+				}else{ // Si son distintas...
+					posicion += BYTES_STOCK ; 
+					streamIn.seek(posicion); // Pasamos al siguiente libro
 				}
 			}while(streamIn.getFilePointer() != streamIn.length());
 		} catch (FileNotFoundException e) {
