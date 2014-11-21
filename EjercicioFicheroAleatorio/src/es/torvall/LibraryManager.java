@@ -318,15 +318,14 @@ public class LibraryManager {
 		try{
 			streamIn = new RandomAccessFile(randomFile, "r"); // Abrimos el flujo
 			do{
-				posicion += POSICION_EDITORIAL;
-				streamIn.seek(posicion); // Nos posicionamos en la editorial directamente
+				posicion += POSICION_EDITORIAL; // Nos posicionamos en la editorial directamente
+				streamIn.seek(posicion); 
 				int publisher = streamIn.readInt(); // Leemos la editorial
 				if(publisher == editorial){ // Si son iguales...
 					posicion -= POSICION_EDITORIAL; // Nos colocamos al inicio del libro
-					streamIn.seek(posicion); // Nos colocamos al inicio del libro
+					streamIn.seek(posicion); 
 					Book b = readBook(streamIn);
-					System.out.println(b.toString());
-					posicion += TAMANO_REGISTRO;
+					posicion += TAMANO_REGISTRO;// Nos volvemos a colocar en la siguiente posicion
 					libros.add(readBook(streamIn)); //Anadimos el libro al ArrayList
 				}else{ // Si son distintas...
 					posicion += TAMANO_REGISTRO - POSICION_EDITORIAL ; 

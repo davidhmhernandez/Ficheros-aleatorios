@@ -18,8 +18,8 @@ public class Main {
 		//lm.leerBin(randomFile);
 
 		ArrayList<Book>a = lm.buscarLibros(randomFile,67);
-			/*for(Book b : a){
+			for(Book b : a){
 				System.out.println(b.toString());
-		  	}*/
+		  	}
 	}
 }
