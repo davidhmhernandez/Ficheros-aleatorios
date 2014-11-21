@@ -228,7 +228,6 @@ public class LibraryManager {
 		}*/
 		
 		// Forma rapida
-		
 		try{
 			streamIn = new RandomAccessFile(randomFile, "r"); // Abrimos el flujo
 			do{
