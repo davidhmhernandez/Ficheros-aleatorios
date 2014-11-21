@@ -1,4 +1,3 @@
-
 package es.torvall;
 
 import java.io.BufferedReader;
@@ -17,9 +16,8 @@ public class LibraryManager {
 	public final static int POSICION_EDITORIAL = 56;
 	public final static int BYTES_STOCK = 4;
 
-	Book b = null;
+
 	StringBuffer sb;
-	private ArrayList<Book> libros = null;
 
 	public void imprimir(String fichero) {
 		RandomAccessFile streamIn = null;
@@ -123,43 +121,45 @@ public class LibraryManager {
 	public void writeRandomFile(String randomFile, ArrayList<Book> libros) {
 		RandomAccessFile streamOut = null;
 		StringBuffer sb;
-		
-		try {
-			streamOut = new RandomAccessFile(randomFile, "rw");
-			for (Book b : libros) {
 
-				int id = b.getBook_id();
-				streamOut.writeInt(id);
-
-				sb = new StringBuffer(b.getTitle());
-				sb.setLength(TAM_NAME); // fijo a tam max 20
-				String title = sb.toString();
-				streamOut.writeChars(title);
-
-				int fk_author = b.getFk_author();
-				streamOut.writeInt(fk_author);
-
-				int fk_publisher = b.getFk_publisher();
-				streamOut.writeInt(fk_publisher);
-
-				int year = b.getYear();
-				streamOut.writeInt(year);
-
-				int stock = b.getStock();
-				streamOut.writeInt(stock);
-
-			}
-
-		} catch (FileNotFoundException e) {
-			System.err.println(e.getMessage());
-		} catch (IOException e) {
-			System.err.println(e.getMessage());
-		} finally {
+		if (libros != null) {
 			try {
-				streamOut.close();// se cierra el flujo
+				streamOut = new RandomAccessFile(randomFile, "rw");
+				for (Book b : libros) {
+
+					int id = b.getBook_id();
+					streamOut.writeInt(id);
+
+					sb = new StringBuffer(b.getTitle());
+					sb.setLength(TAM_NAME); // fijo a tam max 20
+					String title = sb.toString();
+					streamOut.writeChars(title);
+
+					int fk_author = b.getFk_author();
+					streamOut.writeInt(fk_author);
+
+					int fk_publisher = b.getFk_publisher();
+					streamOut.writeInt(fk_publisher);
+
+					int year = b.getYear();
+					streamOut.writeInt(year);
+
+					int stock = b.getStock();
+					streamOut.writeInt(stock);
+
+				}
+
+			} catch (FileNotFoundException e) {
+				System.err.println(e.getMessage());
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				System.err.println(e.getMessage());
+			} finally {
+				try {
+					streamOut.close();// se cierra el flujo
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 
