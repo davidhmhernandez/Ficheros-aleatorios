@@ -14,7 +14,6 @@ public class Book implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private int book_id;
-
 	private String title;
 	private int fk_author;
 	private int year;
