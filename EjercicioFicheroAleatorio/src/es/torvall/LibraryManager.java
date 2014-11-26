@@ -13,7 +13,7 @@ public class LibraryManager {
 	final static int TAM_NAME = 20;
 	public final static int POSICION_EDITORIAL = 48;
 	public final static int TAMANO_REGISTRO = 60;
-	
+
 	Book b = null;
 	StringBuffer sb;
 	private ArrayList<Book> libros = null;
@@ -81,8 +81,9 @@ public class LibraryManager {
 						int year = Integer.parseInt(st.nextToken());
 
 						int stock = Integer.parseInt(st.nextToken());
-						// se crea el objeto libro						
-						b = new Book(id, title, fk_author, fk_publisher, year,stock);
+						// se crea el objeto libro
+						b = new Book(id, title, fk_author, fk_publisher, year,
+								stock);
 						libros.add(b);
 
 					}
@@ -161,101 +162,155 @@ public class LibraryManager {
 		}
 
 	}
+
 	/**
 	 * @author Juan
 	 * @param id
 	 * @param randomFile
 	 * @return Metodo que recibe un id y devuelve un objeto de la clase Book;
 	 */
-	
-	public Book findBook(int id,String randomFile){
-		int posicion=(id-1)*60;
-		Book libro=new Book();
-		
-		RandomAccessFile file=null;
-				try {
-					file=new RandomAccessFile(randomFile,"r");
-					file.seek(posicion);
-					if(file.read()==id){
-						libro=readBook(file);
-					}
-					
-				} catch (FileNotFoundException e) {
-					
-					e.printStackTrace();
-				} catch (IOException e) {
-					
-					e.printStackTrace();
-				}finally{
-					try {
-						file.close();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-				return libro;
-		
-		
-	}
-	
-	
-	
 
-	/**
-	 * @author Carlos y David
-	 * Metodo que lee el archivo BIN y lo muestra por pantalla
-	 * @param randomFile
-	 */
-
-
-	public void leerBin(String randomFile) {
+	public Book findBook(int id, String randomFile) {
+		int posicion = (id - 1) * 60;
+		Book libro = new Book();
 
 		RandomAccessFile file = null;
 		try {
 			file = new RandomAccessFile(randomFile, "r");
-		
-
-		int book_id, fk_author, year, fk_publisher, stock;
-
-		char title[] = new char[TAM_NAME], aux;
-
-		// System.out.println(file.length());
-
-		do {
-			book_id = file.readInt();
-			for (int i = 0; i < TAM_NAME; i++) {
-				aux = file.readChar();
-				if ((int) aux != 0) {
-					title[i] = aux;
-				} else
-					title[i] = ' ';
+			file.seek(posicion);
+			if (file.read() == id) {
+				libro = readBook(file);
 			}
-			String titleS = new String(title);
-			fk_author = file.readInt();
-			fk_publisher = file.readInt();
-			year = file.readInt();
-			stock = file.readInt();
-			System.out.println("ID: " + book_id + " Title: " + titleS
-					+ " Author: " + fk_author + " Publisher: " + fk_publisher
-					+ " Year: " + year + " Stock: " + stock);
-		} while (file.getFilePointer() < file.length());
+
+		} catch (FileNotFoundException e) {
+
+			e.printStackTrace();
+		} catch (IOException e) {
+
+			e.printStackTrace();
+		} finally {
+			try {
+				file.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return libro;
+
+	}
+
+	/**
+	 * @author Cati Método que imprime todo el contenido del fichero “BIBLIO.BIN
+	 * @param randomFile
+	 */
+
+	public void imprimeBin(String randomFile) {
+		RandomAccessFile raf = null;
+
+		int book_id;
+		String title;
+		int fk_author;
+		int year;
+		int fk_publisher;
+		int stock;
+		try {
+			raf = new RandomAccessFile(randomFile, "r");
+
+			System.out.println("\n...Lista de ficheros...");
+			do {
+
+				book_id = raf.readInt();
+
+				char aTitle[] = new char[TAM_NAME], aux;
+
+				for (int i = 0; i < aTitle.length; i++) {
+
+					aux = raf.readChar();
+					if (aux != 0) {
+						aTitle[i] = aux;
+					} else {
+						aTitle[i] = ' ';
+					}
+				}
+
+				title = new String(aTitle);
+				fk_author = raf.readInt();
+				fk_publisher = raf.readInt();
+				year = raf.readInt();
+				stock = raf.readInt();
+
+				System.out.println("ID: " + book_id + " Title: " + title
+						+ " Author: " + fk_author + " Publisher: "
+						+ fk_publisher + " Year: " + year + " Stock: " + stock);
+
+			} while (raf.getFilePointer() < raf.length());
+
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally{
-			try{
-				file.close();
-			}catch(IOException ioe){
-				
+		} finally {
+			try {
+				raf.close();
+			} catch (IOException ioe) {
+
 			}
 		}
-		}
-		
+	}
 
+	/**
+	 * @author Carlos y David Metodo que lee el archivo BIN y lo muestra por
+	 *         pantalla
+	 * @param randomFile
+	 */
+
+	public void leerBin(String randomFile) {
+
+		RandomAccessFile file = null;
+		try {
+			file = new RandomAccessFile(randomFile, "r");
+
+			int book_id, fk_author, year, fk_publisher, stock;
+
+			char title[] = new char[TAM_NAME], aux;
+
+			// System.out.println(file.length());
+
+			do {
+				book_id = file.readInt();
+				for (int i = 0; i < TAM_NAME; i++) {
+					aux = file.readChar();
+					if ((int) aux != 0) {
+						title[i] = aux;
+					} else
+						title[i] = ' ';
+				}
+				String titleS = new String(title);
+				fk_author = file.readInt();
+				fk_publisher = file.readInt();
+				year = file.readInt();
+				stock = file.readInt();
+				System.out.println("ID: " + book_id + " Title: " + titleS
+						+ " Author: " + fk_author + " Publisher: "
+						+ fk_publisher + " Year: " + year + " Stock: " + stock);
+			} while (file.getFilePointer() < file.length());
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				file.close();
+			} catch (IOException ioe) {
+
+			}
+		}
+	}
 
 	public String readTitle(RandomAccessFile stream) throws IOException {
 		StringBuilder sb = new StringBuilder();
@@ -312,7 +367,7 @@ public class LibraryManager {
 				stock);
 		return book;
 	}
-	
+
 	/**
 	 * @author CarlosGonzalezGonzalez
 	 * @param randomFile
@@ -321,57 +376,52 @@ public class LibraryManager {
 	 */
 
 	public ArrayList<Book> buscarLibros(String randomFile, int editorial) {
-		ArrayList<Book> libros = new ArrayList<Book>(); // ArrayList donde guardaremos los libros de la editorial
+		ArrayList<Book> libros = new ArrayList<Book>(); // ArrayList donde
+														// guardaremos los
+														// libros de la
+														// editorial
 		Book book;
 		RandomAccessFile streamIn = null;
 		int posicion = 0;
 		/*
-		// Forma lenta
+		 * // Forma lenta try { streamIn = new RandomAccessFile(randomFile,
+		 * "r"); do { book = readBook(streamIn); if (book.getFk_publisher() ==
+		 * editorial) libros.add(book); } while (streamIn.getFilePointer() !=
+		 * streamIn.length()); } catch (FileNotFoundException e) {
+		 * System.err.println("Fichero no encontrado"); } catch (IOException e)
+		 * { System.err.println("Error e/s"); } finally { if (streamIn != null)
+		 * { try { streamIn.close(); } catch (IOException e) {
+		 * System.err.println("Error e/s al cerrar"); } } }
+		 */
+
+		// Forma rapida
 		try {
-			streamIn = new RandomAccessFile(randomFile, "r");
+			streamIn = new RandomAccessFile(randomFile, "r"); // Abrimos el
+																// flujo
 			do {
-				book = readBook(streamIn);
-				if (book.getFk_publisher() == editorial)
-					libros.add(book);
+				posicion += POSICION_EDITORIAL; // Nos posicionamos en la
+												// editorial directamente
+				streamIn.seek(posicion);
+				int publisher = streamIn.readInt(); // Leemos la editorial
+				if (publisher == editorial) { // Si son iguales...
+					posicion -= POSICION_EDITORIAL; // Nos colocamos al inicio
+													// del libro
+					streamIn.seek(posicion);
+					Book b = readBook(streamIn);
+					posicion += TAMANO_REGISTRO;// Nos volvemos a colocar en la
+												// siguiente posicion
+					libros.add(readBook(streamIn)); // Anadimos el libro al
+													// ArrayList
+				} else { // Si son distintas...
+					posicion += TAMANO_REGISTRO - POSICION_EDITORIAL;
+					streamIn.seek(posicion); // Pasamos al siguiente libro
+				}
 			} while (streamIn.getFilePointer() != streamIn.length());
 		} catch (FileNotFoundException e) {
 			System.err.println("Fichero no encontrado");
 		} catch (IOException e) {
-			System.err.println("Error e/s");
-		} finally {
-			if (streamIn != null) {
-				try {
-					streamIn.close();
-				} catch (IOException e) {
-					System.err.println("Error e/s al cerrar");
-				}
-			}
-		}
-		*/
-		
-		// Forma rapida
-		try{
-			streamIn = new RandomAccessFile(randomFile, "r"); // Abrimos el flujo
-			do{
-				posicion += POSICION_EDITORIAL; // Nos posicionamos en la editorial directamente
-				streamIn.seek(posicion); 
-				int publisher = streamIn.readInt(); // Leemos la editorial
-				if(publisher == editorial){ // Si son iguales...
-					posicion -= POSICION_EDITORIAL; // Nos colocamos al inicio del libro
-					streamIn.seek(posicion); 
-					Book b = readBook(streamIn);
-					posicion += TAMANO_REGISTRO;// Nos volvemos a colocar en la siguiente posicion
-					libros.add(readBook(streamIn)); //Anadimos el libro al ArrayList
-				}else{ // Si son distintas...
-					posicion += TAMANO_REGISTRO - POSICION_EDITORIAL ; 
-					streamIn.seek(posicion); // Pasamos al siguiente libro
-				}
-			}while(streamIn.getFilePointer() != streamIn.length());
-		} catch (FileNotFoundException e) {
-			System.err.println("Fichero no encontrado");
-		} catch (IOException e) {
 			System.err.println("Error E/S");
-		}finally{
+		} finally {
 			if (streamIn != null) {
 				try {
 					streamIn.close();

@@ -1,6 +1,5 @@
 package es.torvall;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class Main {
@@ -14,12 +13,14 @@ public class Main {
 
 		LibraryManager lm = new LibraryManager();
 
-		lm.writeRandomFile(randomFile,lm.readCSV(csvFile));
+		lm.writeRandomFile(randomFile, lm.readCSV(csvFile));
 		lm.leerBin(randomFile);
 
-		ArrayList<Book>a = lm.buscarLibros(randomFile,67);
-			for(Book b : a){
-				System.out.println(b.toString());
-		  	}
+		ArrayList<Book> a = lm.buscarLibros(randomFile, 67);
+		for (Book b : a) {
+			System.out.println(b.toString());
+		}
+		
+		lm.imprimeBin(randomFile);
 	}
 }
